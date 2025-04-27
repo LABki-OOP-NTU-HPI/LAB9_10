@@ -4,20 +4,23 @@ int main()
 {
     try
     {
-        Vector v;
-        v++;
+        Vector<int> v;
+        Vector<string> v2;
+        Vector<bool> v3;
         ++v;
         v++;
+        v2++;
+        ++v2;
+        // v3++;
+        // ++v3;
 
-        v.print();
-
+        v2[0] = "Hello";
+        v2[1] = "World";
+        //v2[2] = "Error";
+        v2.print();
         v[0] = 10;
         v[1] = 20;
-        v[2] = 30;
         v.print();
-        v[3] = 10;
-        v.print();
-
     }
     catch (const exception& e)
     {

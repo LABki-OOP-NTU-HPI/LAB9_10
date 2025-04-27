@@ -1,11 +1,13 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <iostream>
+#include "Error.h"
 using namespace std;
 
+template <class T>
 class Vector
 {
-    int *array;
+    T *array;
     int size;
     public:
 
@@ -14,12 +16,13 @@ class Vector
         array = nullptr;
         size = 0;
     }
+
     Vector(const Vector& other)
     {
         size = other.size;
         if (size > 0)
         {
-            array = new int[size];
+            array = new T[size];
             for (int i = 0; i < size; ++i)
                 array[i] = other.array[i];
         }
@@ -33,22 +36,21 @@ class Vector
         delete[] array;
     };
 
-    int& operator[](int index)
+    T& operator[](int index)
     {
         if(index < 0 || index >= size)
-            throw out_of_range("Index out of range");
+            throw VectorOutOfRange();
+
         return array[index];
     }
 
     Vector operator++(int)
     {
         Vector temp = *this;
-        int* newArray = new int[size + 1];
+        T* newArray = new T[size + 1];
 
         for (int i = 0; i < size; ++i)
             newArray[i] = array[i];
-
-        newArray[size] = 0;
 
         delete[] array;
         array = newArray;
@@ -59,8 +61,7 @@ class Vector
 
     Vector& operator++()
     {
-        int* newArray = new int[size + 1];
-        newArray[0] = 0;
+        T* newArray = new T[size + 1];
 
         for (int i = 0; i < size; ++i)
             newArray[i + 1] = array[i];
@@ -78,5 +79,15 @@ class Vector
             cout << array[i] << " ";
     }
 };
+template<>
+class Vector<bool>{};
+
+template<>
+void Vector<string>::print() const
+{
+    for (int i = 0; i < size; ++i)
+        cout << "#" << array[i] << "#" << " ";
+    cout << endl;
+}
 
 #endif //VECTOR_H
